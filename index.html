@@ -1,65 +1,125 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Jeffthorne.github.io by jeffthorne</title>
+    <head>
+        <Title> Test Page Load Speed </Title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,800,700,600,300' rel='stylesheet' type='text/css'>
+         <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Jeffthorne.github.io</h1>
-        <p>jeffthorne.github.io</p>
+        <script>
+            var start = (new Date).getTime();
+            var results = "Time To Load\r\n";
+            var pages = []
+            var counter = 0;
 
 
-        <p class="view"><a href="https://github.com/jeffthorne">View My GitHub Profile</a></p>
+            function parseURLs(){
+                $( "#resultArea" ).text(""); counter = 0; pages = [];
 
-      </header>
-      <section>
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+                var urls = parent.document.getElementById("tryURL").value.split('\n');
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+                for(var i = 0; i < urls.length; i++){
+                  var url = urls[i];
+                  
+                  if(url.length > 1){ 
+                    var testHttpPrefix = url.indexOf('http://');
+                    if(testHttpPrefix < 0){ url = "http://" + url; }
+                    pages.push(url)
+                  }
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+                  console.log("i " + i);
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+                }//end for
 
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+                console.log(pages);
+                if(pages.length > 0){startTest()};
+                
+            }
+            
+            
+            function startTest() {
+                start = (new Date).getTime();
+                parent.document.getElementById("leftFrame").src = pages[counter];
+                counter++;
+            }
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+            function finished() {
+                var end = (new Date).getTime();
+                var diff = end - start;
+        
 
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+                var currentURL = parent.document.getElementById("leftFrame").src
 
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+                var intialLoadTest =  currentURL.indexOf('zzz.html');
+                if(intialLoadTest < 0){
+                    $( "#resultArea" ).append( currentURL + " - " + diff + "ms<br/>");
+                }
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+                  if (counter < pages.length)  {
+                    startTest();
+                }
+            }
+           
+                
+              
+       
+        </script>
+ 
+<style>
+body{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+}
 
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+#tryURL{ height: 350px;}
+#resultArea{
 
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<div class="row">
+<div class="col-md-12"><h1>Page Load Speed Test</h1>Please enter the URLs that you wish to test page load speed. If you wish to test multiple URLs just put each URL on it's own line.</div>
+</div>
+
+<div class="row" style="margin-top:40px;">
+    <div class="col-md-4">
+        <h5>Enter URLs here</h5>
+        <textarea rows="10" cols="30" id="tryURL" placeholder="Enter URLs here"></textarea><br/>
+        <button onclick="parseURLs()" id="goButton" class="btn btn-primary" style="margin-top:10px;">Go</button>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+    <div class="col-md-4">
+        <h5>Results</h5>
+         <div id="resultArea"></div>
+    </div>
+    <div class="col-md-4">
+        <h5>URL will be displayed here</h5>  
+        <iframe width="100%" height="350px" src="zzz.html" onload="finished()" id="leftFrame"></iframe>
+    </div>
+</div>
+
+
+</div><!-- end container -->
+
+
+        
+        
+      
+
+<script>
+  $(document).ready(function() {
+   $( "#leftFrame" ).error(function() {
+    alert( "Handler for .error() called." )
+  })
+  });
+</script>
+
+
+</body>
 </html>
