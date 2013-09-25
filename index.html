@@ -84,21 +84,21 @@ body{
 
 <div class="container">
 
-<div class="row">
+<div class="row-fluid">
 <div class="col-md-12"><h1>Page Load Speed Test</h1>Please enter the URLs that you wish to test page load speed. If you wish to test multiple URLs just put each URL on it's own line.</div>
 </div>
 
 <div class="row" style="margin-top:40px;">
-    <div class="col-md-4">
+    <div class="col-sm-4 col-md-4">
         <h5>Enter URLs here</h5>
         <textarea rows="10" cols="30" id="tryURL" placeholder="Enter URLs here"></textarea><br/>
         <button onclick="parseURLs()" id="goButton" class="btn btn-primary" style="margin-top:10px;">Go</button>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4 col-md-4">
         <h5>Results</h5>
          <div id="resultArea"></div>
     </div>
-    <div class="col-md-4">
+    <div class="col-sm-4 col-md-4">
         <h5>URL will be displayed here</h5>  
         <iframe width="100%" height="350px" src="zzz.html" onload="finished()" id="leftFrame"></iframe>
     </div>
